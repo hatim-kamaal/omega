@@ -1,0 +1,31 @@
+This Admin page must have the following features:
+- Login --> completed
+
+
+- Create Championship (insert image, define a calculated prize, until date, platform, etc)
+- Create/Edit push notifications for users (I must be able to define when they receive it and why)
+- Section of Disputes
+- Send and Edit the e-mails that are sent automatically to the users
+- See a report of payments received
+- Make payments
+- See the users that are registered on Gamrland (iOS, Android or Website)
+- Reset passwords for users when they forget it
+- Control of orders, visits, etc
+- Report of how many championships were created for each platform, game, etc
+- How much money was spent by each user (ranking)
+- send e-mail marketing for every user registered on the App
+- And another features that might come up during the process
+
+
+http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.min.js
+
+// php to pdf api key
+
+e69c096bb6bc9a81db4a0ce3325a7d867350057d
+
+
+2
+3
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>

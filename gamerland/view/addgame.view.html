@@ -1,0 +1,15 @@
+<h1>Hi {{vm.user.firstName}}!</h1>
+<p>You're logged in!!</p>
+<h3>All registered users:</h3>
+
+<h3>{{vm.message}}</h3>
+<table ng-table ="usersTable" class="table table-condensed table-bordered table-striped">
+<tr ng-repeat="user in users">
+<td data-title="'Name'">{{user.name}}</td>
+<td data-title="'Age'">{{user.age}}</td>
+<td data-title="'Location'">{{user.location}}</td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<p><a href="#/login" class="btn btn-primary">Logout</a></p>
