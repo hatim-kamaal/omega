@@ -5,8 +5,16 @@
     //, 'datatables', 'ngResource',, 'ngTable'
     angular
         .module('gamerland', ['ngRoute', 'ngCookies', 'ngTable'])
+		.constant('consts', {
+			appName: 'GamerLand',
+			appVersion: 0.1,
+			apiUrl: 'http://localhost/omega/gamerland/php/'
+			})
         .config(config)
         .run(run);
+	
+	
+	//gamerland	
 
     //, '$facebookProvider'
     config.$inject = ['$routeProvider', '$locationProvider'];
@@ -23,6 +31,21 @@
             .when('/login', {
                 controller: 'LoginController',
                 templateUrl: 'view/login.view.html',
+                controllerAs: 'vm'
+            })
+			.when('/logout', {
+                controller: 'LogoutController',
+                templateUrl: 'view/logout.view.html',
+                controllerAs: 'vm'
+            })
+			.when('/championships', {
+                controller: 'ChampionshipsController',
+                templateUrl: 'view/championships.view.html',
+                controllerAs: 'vm'
+            })
+			.when('/addcmpnships', {
+                controller: 'AddChampionshipsController',
+                templateUrl: 'view/add.championships.view.html',
                 controllerAs: 'vm'
             })
 //            .when('/home', {

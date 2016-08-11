@@ -7,9 +7,9 @@
 			.factory('FlashService', FlashService);
 
 	AuthenticationService.$inject = [ '$http', '$cookieStore', '$rootScope',
-			'$timeout', 'UserService' ];
+			'$timeout', 'UserService', 'consts' ];
 	function AuthenticationService($http, $cookieStore, $rootScope, $timeout,
-			UserService) {
+			UserService, consts) {
 		var service = {};
 
 		service.Login = Login;
@@ -40,7 +40,7 @@
 			// callback(response);
 			// });
 
-				$http.get('http://localhost/angjs-omega-gamerland/php/LoginService.php?email='+username+'&code='+password).success(function(response) {
+				$http.get(consts.apiUrl +  'LoginService.php?email='+username+'&code='+password).success(function(response) {
 						response = {
 							success : response.data.status,
 							message : response.data.msg
@@ -63,12 +63,14 @@
 			$http.defaults.headers.common['Authorization'] = 'Basic '
 					+ authdata; // jshint ignore:line
 			$cookieStore.put('globals', $rootScope.globals);
+			$rootScope.authen = true;
 		}
 
 		function ClearCredentials() {
 			$rootScope.globals = {};
 			$cookieStore.remove('globals');
 			$http.defaults.headers.common.Authorization = 'Basic';
+			$rootScope.authen = false;
 		}
 	}
 

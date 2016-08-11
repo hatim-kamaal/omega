@@ -4,10 +4,11 @@
 
 <h3>{{vm.message}}</h3>
 <table ng-table ="usersTable" class="table table-condensed table-bordered table-striped">
-<tr ng-repeat="user in users">
-<td data-title="'Name'">{{user.name}}</td>
-<td data-title="'Age'">{{user.age}}</td>
-<td data-title="'Location'">{{user.location}}</td>
+<tr ng-repeat="r in records">
+<td data-title="'Name'">{{r.c1}}</td>
+<!-- td data-title="'Age'"><img src="http://omega-solutions.in/championship/Images/{{r.c2}}"/></td -->
+<td data-title="'Age'">{{r.c2}}</td>
+<td data-title="'Location'">{{r.c3}}</td>
 </tr>
 </table>
 
