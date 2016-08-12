@@ -14,6 +14,16 @@
     function AddChampionshipsController($rootScope, $scope,  $http, NgTableParams, consts) {
     	
         var vm = this;
+        
+        vm.images = "fifa.png";
+        vm.platform = "PLAYSTATION 4";
+        vm.gamePrice = "99";
+        vm.until = "09/30/2016";
+        vm.purchasePrize = "200";
+        vm.gameType = "NUMERIC";
+        vm.UserRegistered = "1";
+        vm.TotalRounds = "1";
+        
 
         vm.addChampionship = addChampionship;
 
@@ -29,8 +39,20 @@
                 }
             });
 			*/
-			$http.get( consts.apiUrl +  'ChampionshipService.php').success(function(response) {
-			//alert(response.data);
+            
+			$http.post( consts.apiUrl +  'AddChampionshipService.php', {images: vm.images,
+				gameName: vm.gameName,
+				platform: vm.platform,
+				gamePrice: vm.gamePrice,
+				until: vm.until,
+				purchasePrize: vm.purchasePrize,
+				gameType: vm.gameType,
+				UserRegistered: vm.UserRegistered,
+				TotalRounds: vm.TotalRounds
+})
+			.success(function(response) {
+				
+			alert(" RESP : " + response.HATIM);
         	//$scope.records = response.data.details;        	
         	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
 				vm.dataLoading = false;

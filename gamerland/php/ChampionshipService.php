@@ -31,9 +31,9 @@ try {
 } catch(Exception $e) {
 	$msg=$e->getMessage();
 	$state=false;
-} finally {
-	$conn->close();
-}
+} 
+
+$conn->close();
 
 $result = array('data'=>array('msg'=>$msg,'status'=>$status, 'details'=>$records));
 
