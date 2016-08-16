@@ -41,7 +41,8 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.images.$dirty && form.images.$error.required }">
             <label for="images">images</label>
-            <input type="text" name="images" id="images" class="form-control" ng-model="vm.images" required />
+            <!--  input type="text" name="images" id="images" class="form-control" ng-model="vm.images" required /-->
+            <input type="file" id="images" name="images" ng-files="getTheFiles($files)" class="form-control" required/>
             <span ng-show="form.images.$dirty && form.images.$error.required" class="help-block">images is required</span>
         </div>
         

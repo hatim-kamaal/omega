@@ -229,7 +229,7 @@
     };
 
 	
-	
+    
 	
 	angular.module('gamerland').directive('fileModel', ['$parse', function ($parse) {
 		return {
@@ -245,7 +245,21 @@
 			  });
 		   }
 		};
-	 }]);
+	 }])
+	 .directive('ngFiles', ['$parse', function ($parse) {
+
+        function fn_link(scope, element, attrs) {
+            var onChange = $parse(attrs.ngFiles);
+            element.on('change', function (event) {
+                onChange(scope, { $files: event.target.files });
+            });
+        };
+
+        return {
+            link: fn_link
+        }
+    } ])
+	 ;
 	
 	angular.module('gamerland').service('fileUpload', ['$http', function ($http) {
 		this.uploadFileToUrl = function(file, uploadUrl){
@@ -263,6 +277,7 @@
 		   })
 		
 		   .error(function(){
+			   alert("Got erro");
 		   });
 		}
 	 }]);

@@ -4,7 +4,7 @@
     //, 'ngFacebook'
     //, 'datatables', , 'ngTable' //,'ui.router'
     angular
-        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable', 'ngFileUpload'])
+        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable'])
 		.constant('consts', {
 			appName: 'GamerLand',
 			appVersion: 0.1,

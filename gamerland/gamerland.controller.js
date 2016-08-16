@@ -15,75 +15,77 @@
         ;
     
 	
-	FileUploadController.$inject = ['$rootScope','$scope', 'Upload', 'FlashService'];
-    function FileUploadController($rootScope, $scope, Upload, FlashService) {
+	FileUploadController.$inject = ['$rootScope','$scope', 'fileUpload', 'FlashService', '$http'];
+    function FileUploadController($rootScope, $scope, fileUpload, FlashService, $http) {
     	
         var vm = this;
 		vm.uploadData = uploadData;
 		
+		var formdata = new FormData();
+		$scope.getTheFiles = function ($files) {
+            angular.forEach($files, function (value, key) {
+                formdata.append(key, value);
+                formdata.append('images', value.name);
+                //mfiles = value;
+            });
+        };
+		
 		function uploadData() {
-            //vm.dataLoading = true;
+			//alert("I am being invoked" + mfiles);
+			
+			formdata.append("gameName" , vm.gameName);
+			
+			var request = {
+                    method: 'POST',
+                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
+                    data: formdata,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+			
+//			var data = {'service':'Championship'};
+			
+			
+//			var request = {
+//                    method: 'POST',
+//                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
+//                    transformRequest: function (data) {
+//                        var formData = new FormData();
+//                        //need to convert our json object to a string version of json otherwise
+//                        // the browser will do a 'toString()' on the object which will result 
+//                        // in the value '[Object object]' on the server.
+//                        formData.append("model", data.model);
+//                        //now add all of the assigned files
+//                        for (var i = 0; i < data.files; i++) {
+//                            //add each file to the form data and iteratively name them
+//                            formData.append(i, data.files[i]);
+//                        }
+//                        return formData;
+//                    },
+//                    data: { model: data, files: mfiles },
+//                    headers: {
+//                        'Content-Type': undefined
+//                    }
+//                };
+
+
+                // SEND THE FILES.
+                $http(request)
+                    .success(function (d) {
+                        alert(d);
+                    })
+                    .error(function () {
+                    });
+			
+//            //vm.dataLoading = true;
+//			//var file = vm.myFile;
+//			
+//			//fileUpload.uploadFileToUrl(file, "http://localhost/omega/gamerland/service/FileUpload.php");
+
 			//var file = vm.myFile;
-			
-			var uploader = $scope.uploader = new FileUploader({
-				url: "http://localhost/omega/gamerland/service/FileUpload.php"
-			});
-
-			// FILTERS
-
-			uploader.filters.push({
-				name: 'customFilter',
-				fn: function(item /*{File|FileLikeObject}*/, options) {
-					return this.queue.length < 10;
-				}
-			});
-			
-			uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-				//console.info('onWhenAddingFileFailed', item, filter, options);
-				alert("onWhenAddingFileFailed");
-			};
-			uploader.onAfterAddingFile = function(fileItem) {
-				//console.info('onAfterAddingFile', fileItem);
-				alert("onAfterAddingFile");
-			};
-			uploader.onAfterAddingAll = function(addedFileItems) {
-				//console.info('onAfterAddingAll', addedFileItems);
-				alert("onAfterAddingAll");
-			};
-			uploader.onBeforeUploadItem = function(item) {
-				//console.info('onBeforeUploadItem', item);
-				alert("onBeforeUploadItem");
-			};
-			uploader.onProgressItem = function(fileItem, progress) {
-				//console.info('onProgressItem', fileItem, progress);
-				alert("onProgressItem");
-			};
-			uploader.onProgressAll = function(progress) {
-				//console.info('onProgressAll', progress);
-				alert("onProgressAll");
-			};
-			uploader.onSuccessItem = function(fileItem, response, status, headers) {
-				//console.info('onSuccessItem', fileItem, response, status, headers);
-				alert("onSuccessItem");
-			};
-			uploader.onErrorItem = function(fileItem, response, status, headers) {
-				//console.info('onErrorItem', fileItem, response, status, headers);
-				alert("onErrorItem");
-			};
-			uploader.onCancelItem = function(fileItem, response, status, headers) {
-				//console.info('onCancelItem', fileItem, response, status, headers);
-				alert("onCancelItem");
-			};
-			uploader.onCompleteItem = function(fileItem, response, status, headers) {
-				//console.info('onCompleteItem', fileItem, response, status, headers);
-				alert("onCompleteItem");
-			};
-			uploader.onCompleteAll = function() {
-				//console.info('onCompleteAll');
-				alert("onCompleteAll");
-			};
-			
-			//fileUpload.uploadFileToUrl(file, "http://localhost/omega/gamerland/service/FileUpload.php");
+			//var uploadUrl = 'http://localhost/omega/gamerland/service/FileUpload.php';
+			//fileUpload.uploadFileToUrl(file, uploadUrl);
 			
 			/*
 			$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: vm.images,
@@ -141,26 +143,46 @@
         
         
         vm.addChampionship = addChampionship;
+        
+		var formdata = new FormData();
+		$scope.getTheFiles = function ($files) {
+            angular.forEach($files, function (value, key) {
+                formdata.append(key, value);
+                formdata.append('images', value.name);
+                //mfiles = value;
+            });
+        };
+
 
         function addChampionship() {
             vm.dataLoading = true;
-			$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: vm.images,
-				gameName: vm.gameName,
-				platform: vm.platform,
-				gamePrice: vm.gamePrice,
-				until: vm.until,
-				purchasePrize: vm.purchasePrize,
-				gameType: vm.gameType,
-				UserRegistered: vm.UserRegistered,
-				TotalRounds: vm.TotalRounds,
-				gameId: vm.gameId
-				}).success(function(response) {
-				
-					if( response.success ) {
-						FlashService.Success("Championship is registered successfully.");
-					} else {
-						FlashService.Error(response.message);
-					}
+            formdata.append("service", 'Championship');
+            formdata.append("method", 'update');
+            formdata.append("gameName", vm.gameName);
+            formdata.append("platform", vm.platform);
+            formdata.append("gamePrice", vm.gamePrice);
+            formdata.append("until", vm.until);
+            formdata.append("purchasePrize", vm.purchasePrize);
+            formdata.append("gameType", vm.gameType);
+            formdata.append("UserRegistered", vm.UserRegistered);
+            formdata.append("TotalRounds", vm.TotalRounds);
+            formdata.append("gameId", vm.gameId);
+            
+            var request = {
+                    method: 'POST',
+                    url: consts.apiUrl,
+                    data: formdata,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                };
+            
+			$http(request).success(function(response) {
+				if( response.success ) {
+					FlashService.Success("Championship is registered successfully.");
+				} else {
+					FlashService.Error(response.message);
+				}
 					
 			//alert(" RESP : " + response.HATIM);
         	//$scope.records = response.data.details;        	
@@ -258,6 +280,7 @@
         vm.user = {firstName : "Hatim"};
         
         $http.post( consts.apiUrl, { 'service':'User', 'method':'tableExample'}).success(function(response) {
+        	alert(response.message);
         	$scope.users = response.data;
         	
         	$scope.usersTable = new NgTableParams({}, { dataset: $scope.users });
