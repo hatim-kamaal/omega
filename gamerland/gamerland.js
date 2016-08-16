@@ -4,7 +4,7 @@
     //, 'ngFacebook'
     //, 'datatables', , 'ngTable' //,'ui.router'
     angular
-        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable'])
+        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable', 'ngFileUpload'])
 		.constant('consts', {
 			appName: 'GamerLand',
 			appVersion: 0.1,
@@ -53,6 +53,13 @@
                 templateUrl: 'view/add.championships.view.html',
                 controllerAs: 'vm'
             })
+			.when('/fileupload', {
+                controller: 'FileUploadController',
+                templateUrl: 'view/fileupload.view.html',
+                controllerAs: 'vm'
+            })
+			
+			//
             
 //            .when('/home', {
 //                controller: 'HomeController',

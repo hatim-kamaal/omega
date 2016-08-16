@@ -9,17 +9,121 @@
 		.controller('ChampionshipsController',ChampionshipsController)
 		.controller('AddChampionshipsController', AddChampionshipsController)
 		.controller('EditChampionshipsController', EditChampionshipsController)
+		
+		.controller('FileUploadController', FileUploadController)
+		
         ;
     
-    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', '$http', 'NgTableParams', 'consts'];
-    function EditChampionshipsController($rootScope, $scope, $routeParams, $http, NgTableParams, consts) {
+	
+	FileUploadController.$inject = ['$rootScope','$scope', 'Upload', 'FlashService'];
+    function FileUploadController($rootScope, $scope, Upload, FlashService) {
     	
         var vm = this;
+		vm.uploadData = uploadData;
+		
+		function uploadData() {
+            //vm.dataLoading = true;
+			//var file = vm.myFile;
+			
+			var uploader = $scope.uploader = new FileUploader({
+				url: "http://localhost/omega/gamerland/service/FileUpload.php"
+			});
+
+			// FILTERS
+
+			uploader.filters.push({
+				name: 'customFilter',
+				fn: function(item /*{File|FileLikeObject}*/, options) {
+					return this.queue.length < 10;
+				}
+			});
+			
+			uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+				//console.info('onWhenAddingFileFailed', item, filter, options);
+				alert("onWhenAddingFileFailed");
+			};
+			uploader.onAfterAddingFile = function(fileItem) {
+				//console.info('onAfterAddingFile', fileItem);
+				alert("onAfterAddingFile");
+			};
+			uploader.onAfterAddingAll = function(addedFileItems) {
+				//console.info('onAfterAddingAll', addedFileItems);
+				alert("onAfterAddingAll");
+			};
+			uploader.onBeforeUploadItem = function(item) {
+				//console.info('onBeforeUploadItem', item);
+				alert("onBeforeUploadItem");
+			};
+			uploader.onProgressItem = function(fileItem, progress) {
+				//console.info('onProgressItem', fileItem, progress);
+				alert("onProgressItem");
+			};
+			uploader.onProgressAll = function(progress) {
+				//console.info('onProgressAll', progress);
+				alert("onProgressAll");
+			};
+			uploader.onSuccessItem = function(fileItem, response, status, headers) {
+				//console.info('onSuccessItem', fileItem, response, status, headers);
+				alert("onSuccessItem");
+			};
+			uploader.onErrorItem = function(fileItem, response, status, headers) {
+				//console.info('onErrorItem', fileItem, response, status, headers);
+				alert("onErrorItem");
+			};
+			uploader.onCancelItem = function(fileItem, response, status, headers) {
+				//console.info('onCancelItem', fileItem, response, status, headers);
+				alert("onCancelItem");
+			};
+			uploader.onCompleteItem = function(fileItem, response, status, headers) {
+				//console.info('onCompleteItem', fileItem, response, status, headers);
+				alert("onCompleteItem");
+			};
+			uploader.onCompleteAll = function() {
+				//console.info('onCompleteAll');
+				alert("onCompleteAll");
+			};
+			
+			//fileUpload.uploadFileToUrl(file, "http://localhost/omega/gamerland/service/FileUpload.php");
+			
+			/*
+			$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: vm.images,
+				gameName: vm.gameName,
+				platform: vm.platform,
+				gamePrice: vm.gamePrice,
+				until: vm.until,
+				purchasePrize: vm.purchasePrize,
+				gameType: vm.gameType,
+				UserRegistered: vm.UserRegistered,
+				TotalRounds: vm.TotalRounds,
+				gameId: vm.gameId
+				}).success(function(response) {
+				
+					if( response.success ) {
+						FlashService.Success("Championship is registered successfully.");
+					} else {
+						FlashService.Error(response.message);
+					}
+					
+			//alert(" RESP : " + response.HATIM);
+        	//$scope.records = response.data.details;        	
+        	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+				vm.dataLoading = false;
+			}).error( function(response){alert('failed to invoke service')} );	
+			*/			
+        };
+		
+	};
+	
+    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', 
+	'$http', 'NgTableParams', 'consts', 'FlashService'];
+    function EditChampionshipsController($rootScope, $scope, $routeParams, 
+	$http, NgTableParams, consts, FlashService) {
+    	
+        var vm = this;
+		vm.edit = true;
         vm.mode = "Edit";
         vm.gameId = $routeParams.id;
         $http.post( consts.apiUrl , { 'service':'Championship', 'method':'getById', 'id':$routeParams.id}).success(function(response) {
-			//alert(response.data);
-        	//$scope.records = response.data;        	
         	
         	vm.gameName = response.data.gameName;
         	vm.images = response.data.images;
@@ -34,7 +138,6 @@
         	$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
         	vm.dataLoading = false;
         }).error( function(response){alert('failed to invoke service')} );
-        //getById
         
         
         vm.addChampionship = addChampionship;
@@ -72,6 +175,7 @@
     function AddChampionshipsController($rootScope, $scope, $http, NgTableParams, consts, FlashService) {
     	
         var vm = this;
+		vm.edit = false;
         vm.mode = "Add";
         
         vm.images = "fifa.png";

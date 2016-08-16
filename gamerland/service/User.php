@@ -25,7 +25,6 @@ class User {
 	
 	
 	function tableExample() {
-		sleep(10);
 		$result = array();
 		array_push($result, array('age'=>1, 'name'=>'Hatim', 'location'=>'Chennai'));
 		array_push($result, array('age'=>2, 'name'=>'Zainab', 'location'=>'Chennai'));

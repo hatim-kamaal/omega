@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+* 
+*/
 class Championship {
 
 	private $data;
@@ -21,7 +23,8 @@ class Championship {
 		//return $output = array( 'success'=>true, 'message'=>'Found the record.' );
 		//throw new Exception('Technical issue#1');
 
-		$rs = $this->conn->query("SELECT * FROM `ImagesTable`");
+		$rs = $this->conn->query("SELECT imgId, gameName, images,platform, 
+		gamePrice,until,purchasePrize,gameType,UserRegistered,TotalRounds FROM ImagesTable");
 
 		if( !isset($rs) ) {
 			throw new Exception('Technical issue#1');
@@ -34,6 +37,23 @@ class Championship {
 		$records = array();
 
 		while($row = mysqli_fetch_row ( $rs )) {
+			$c = 0;
+			$c0 = $row[$c++];
+			$c1 = $row[$c++];
+			$c2 = $row[$c++];
+			$c3 = $row[$c++];
+			$c4 = $row[$c++];
+			$c5 = $row[$c++];
+			$c6 = $row[$c++];
+			$c7 = $row[$c++];
+			$c8 = $row[$c++];
+			$c9 = $row[$c++];
+
+			array_push( $records, array( 'imgId'=>$c0,'gameName'=>$c1, 'images'=>$c2 , 'platform'=>$c3
+			, 'gamePrice'=>$c4 , 'until'=>$c5 , 'purchasePrize'=>$c6 , 'gameType'=>$c7, 'UserRegistered'=>$c8
+			, 'TotalRounds'=>$c9) );
+			
+			/*
 			$c1 = $row[0];
 			$c2 = $row[1];
 			$c3 = $row[2];
@@ -43,6 +63,7 @@ class Championship {
 
 			array_push( $records, array( 'c1'=>$c1, 'c2'=>$c2 , 'c3'=>$c3
 			, 'c4'=>$c4 , 'c5'=>$c5 , 'c6'=>$c6 ) );
+			*/
 		}
 
 		$this->conn->close();
@@ -60,7 +81,9 @@ class Championship {
 		//throw new Exception('Technical issue#1');
 		$id = $this->data->id;
 
-		$rs = $this->conn->query("SELECT * FROM ImagesTable WHERE imgId=$id");
+		$rs = $this->conn->query("SELECT imgId, gameName, images,platform, 
+		gamePrice,until,purchasePrize,gameType,UserRegistered,TotalRounds 
+		FROM ImagesTable WHERE imgId=$id");
 
 		if( !isset($rs) ) {
 			throw new Exception('Technical issue#1');
@@ -170,6 +193,6 @@ class Championship {
 	
 		$this->conn->close();
 	
-		return array( 'success'=>true, 'message'=>'Record has been updated.');
+		return $output = array( 'success'=>true, 'message'=>'Record has been updated.');
 	}
 }

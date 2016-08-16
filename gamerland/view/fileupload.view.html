@@ -1,0 +1,27 @@
+<h3>{{vm.mode}} Championship</h3>
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>Championship</h2>
+    <form name="form" ng-submit="vm.uploadData()" role="form">
+    	<input type="hidden" name="gameId" ng-model="vm.gameId" />
+        <div class="form-group" ng-class="{ 'has-error': form.gameName.$dirty && form.gameName.$error.required }">
+            <label for="gameName">gameName</label>
+            <input type="text" name="gameName" id="gameName" class="form-control" ng-model="vm.gameName" required />
+            <span ng-show="form.gameName.$dirty && form.gameName.$error.required" class="help-block">gameName is required</span>
+        </div>
+		<!--
+        <div class="form-group" ng-class="{ 'has-error': form.file.$dirty && form.file.$error.required }">
+            <label for="file">file</label>
+            <input type="file" file-model = "vm.myFile" 
+			name="file" id="file" class="form-control" required />
+            <span ng-show="form.file.$dirty && form.file.$error.required" class="help-block">file is required</span>
+        </div>
+		-->
+		 <input type="file" nv-file-select="" class="form-control" uploader="uploader" />
+        
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Submit</button>
+            <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </div>
+    </form>
+</div>
