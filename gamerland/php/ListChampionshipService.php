@@ -1,18 +1,4 @@
 <?php
-
-class ChampService {
-	
-	private $data;
-	
-	function __construct() {
-		$this->data = json_decode(file_get_contents("php://input"));
-	}
-	
-	
-	
-}
-
-
 $msg="success";
 $status=true;
 $records = array();

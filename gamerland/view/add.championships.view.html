@@ -1,43 +1,53 @@
-<h3>Add Championship</h3>
+<h3>{{vm.mode}} Championship</h3>
 
 <div class="col-md-6 col-md-offset-3">
-    <h2>Login</h2>
+    <h2>Championship</h2>
     <form name="form" ng-submit="vm.addChampionship()" role="form">
-		<!-- input type="hidden" id="images" name="images" ng-model="vm.images" value="fifa.png"/ -->
-		<input type="hidden" name="platform" ng-model="vm.platform" value="PLAYSTATION 4"/>
-		<input type="hidden" name="gamePrice" ng-model="vm.gamePrice" value="200"/>
-		<input type="hidden" name="until" ng-model="vm.until" value="09/30/2016"/>
-		<input type="hidden" name="purchasePrize" ng-model="vm.purchasePrize" value="PLAYSTATION 4"/>
-		<input type="hidden" name="gameType" ng-model="vm.gameType" value="NUMERIC"/>
-		<input type="hidden" name="UserRegistered" ng-model="vm.UserRegistered" value="0"/>
-		<input type="hidden" name="TotalRounds" ng-model="vm.TotalRounds" value="10"/>
-	
-	
+    	<input type="hidden" name="gameId" ng-model="vm.gameId" />
         <div class="form-group" ng-class="{ 'has-error': form.gameName.$dirty && form.gameName.$error.required }">
             <label for="gameName">gameName</label>
             <input type="text" name="gameName" id="gameName" class="form-control" ng-model="vm.gameName" required />
             <span ng-show="form.gameName.$dirty && form.gameName.$error.required" class="help-block">gameName is required</span>
         </div>
+        <div class="form-group" ng-class="{ 'has-error': form.platform.$dirty && form.platform.$error.required }">
+            <label for="platform">platform</label>
+            <input type="text" name="platform" id="platform" class="form-control" ng-model="vm.platform" required />
+            <span ng-show="form.platform.$dirty && form.platform.$error.required" class="help-block">platform is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.gamePrice.$dirty && form.gamePrice.$error.required }">
+            <label for="gamePrice">gamePrice</label>
+            <input type="text" name="gamePrice" id="gamePrice" class="form-control" ng-model="vm.gamePrice" required />
+            <span ng-show="form.gamePrice.$dirty && form.gamePrice.$error.required" class="help-block">gamePrice is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.until.$dirty && form.until.$error.required }">
+            <label for="until">until</label>
+            <input type="text" name="until" id="until" class="form-control" ng-model="vm.until" required />
+            <span ng-show="form.until.$dirty && form.until.$error.required" class="help-block">until is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.purchasePrize.$dirty && form.purchasePrize.$error.required }">
+            <label for="purchasePrize">purchasePrize</label>
+            <input type="text" name="purchasePrize" id="purchasePrize" class="form-control" ng-model="vm.purchasePrize" required />
+            <span ng-show="form.purchasePrize.$dirty && form.purchasePrize.$error.required" class="help-block">purchasePrize is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.gameType.$dirty && form.gameType.$error.required }">
+            <label for="gameType">gameType</label>
+            <input type="text" name="gameType" id="gameType" class="form-control" ng-model="vm.gameType" required />
+            <span ng-show="form.gameType.$dirty && form.gameType.$error.required" class="help-block">gameType is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.TotalRounds.$dirty && form.TotalRounds.$error.required }">
+            <label for="TotalRounds">TotalRounds</label>
+            <input type="text" name="TotalRounds" id="TotalRounds" class="form-control" ng-model="vm.TotalRounds" required />
+            <span ng-show="form.TotalRounds.$dirty && form.TotalRounds.$error.required" class="help-block">TotalRounds is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.images.$dirty && form.images.$error.required }">
+            <label for="images">images</label>
+            <input type="text" name="images" id="images" class="form-control" ng-model="vm.images" required />
+            <span ng-show="form.images.$dirty && form.images.$error.required" class="help-block">images is required</span>
+        </div>
+        
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Submit</button>
             <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            <!--  
-            <a href="#/register" class="btn btn-link">Register</a>
-            -->
         </div>
     </form>
 </div>
-
-
-<!--
-imgId	int(11),
-images	text,
-gameName	text,
-platform	text,
-gamePrice	text,
-until	text,
-purchasePrize	text,
-gameType	text,
-UserRegistered	int(11),
-TotalRounds	int(11)
--->

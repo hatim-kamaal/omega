@@ -8,12 +8,71 @@
 		.controller('LogoutController', LogoutController)
 		.controller('ChampionshipsController',ChampionshipsController)
 		.controller('AddChampionshipsController', AddChampionshipsController)
+		.controller('EditChampionshipsController', EditChampionshipsController)
         ;
     
-	AddChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts'];
-    function AddChampionshipsController($rootScope, $scope,  $http, NgTableParams, consts) {
+    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', '$http', 'NgTableParams', 'consts'];
+    function EditChampionshipsController($rootScope, $scope, $routeParams, $http, NgTableParams, consts) {
     	
         var vm = this;
+        vm.mode = "Edit";
+        vm.gameId = $routeParams.id;
+        $http.post( consts.apiUrl , { 'service':'Championship', 'method':'getById', 'id':$routeParams.id}).success(function(response) {
+			//alert(response.data);
+        	//$scope.records = response.data;        	
+        	
+        	vm.gameName = response.data.gameName;
+        	vm.images = response.data.images;
+            vm.platform = response.data.platform;
+            vm.gamePrice = response.data.gamePrice;
+            vm.until = response.data.until;
+            vm.purchasePrize = response.data.purchasePrize;
+            vm.gameType = response.data.gameType;
+            vm.UserRegistered = response.data.UserRegistered;
+            vm.TotalRounds = response.data.TotalRounds;
+        	
+        	$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+        	vm.dataLoading = false;
+        }).error( function(response){alert('failed to invoke service')} );
+        //getById
+        
+        
+        vm.addChampionship = addChampionship;
+
+        function addChampionship() {
+            vm.dataLoading = true;
+			$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: vm.images,
+				gameName: vm.gameName,
+				platform: vm.platform,
+				gamePrice: vm.gamePrice,
+				until: vm.until,
+				purchasePrize: vm.purchasePrize,
+				gameType: vm.gameType,
+				UserRegistered: vm.UserRegistered,
+				TotalRounds: vm.TotalRounds,
+				gameId: vm.gameId
+				}).success(function(response) {
+				
+					if( response.success ) {
+						FlashService.Success("Championship is registered successfully.");
+					} else {
+						FlashService.Error(response.message);
+					}
+					
+			//alert(" RESP : " + response.HATIM);
+        	//$scope.records = response.data.details;        	
+        	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+				vm.dataLoading = false;
+			}).error( function(response){alert('failed to invoke service')} );			
+        };
+		
+    };
+    
+	AddChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts', 'FlashService'];
+    function AddChampionshipsController($rootScope, $scope, $http, NgTableParams, consts, FlashService) {
+    	
+        var vm = this;
+        vm.mode = "Add";
         
         vm.images = "fifa.png";
         vm.platform = "PLAYSTATION 4";
@@ -29,18 +88,7 @@
 
         function addChampionship() {
             vm.dataLoading = true;
-            /*AuthenticationService.Login(vm.username, vm.password, function (response) {
-                if (response.success) {
-                    AuthenticationService.SetCredentials(vm.username, vm.password);
-                    $location.path('/');
-                } else {
-                    FlashService.Error(response.message);
-                    vm.dataLoading = false;
-                }
-            });
-			*/
-            
-			$http.post( consts.apiUrl +  'AddChampionshipService.php', {images: vm.images,
+			$http.post( consts.apiUrl, {'service':'Championship', 'method':'create',images: vm.images,
 				gameName: vm.gameName,
 				platform: vm.platform,
 				gamePrice: vm.gamePrice,
@@ -49,10 +97,16 @@
 				gameType: vm.gameType,
 				UserRegistered: vm.UserRegistered,
 				TotalRounds: vm.TotalRounds
-})
-			.success(function(response) {
+				}).success(function(response) {
 				
-			alert(" RESP : " + response.HATIM);
+					if( response.success ) {
+					
+					FlashService.Success("Championship is registered successfully.");
+					} else {
+						FlashService.Error(response.message);
+					}
+					
+			//alert(" RESP : " + response.HATIM);
         	//$scope.records = response.data.details;        	
         	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
 				vm.dataLoading = false;
@@ -65,11 +119,14 @@
     function ChampionshipsController($rootScope, $scope,  $http, NgTableParams, consts) {
     	
         var vm = this;
+        vm.dataLoading = true;
+        vm.message = "Here it displays table";
         
-        $http.get( consts.apiUrl +  'ChampionshipService.php').success(function(response) {
+        $http.post( consts.apiUrl , { 'service':'Championship', 'method':'get'}).success(function(response) {
 			//alert(response.data);
-        	$scope.records = response.data.details;        	
+        	$scope.records = response.data;        	
         	$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+        	vm.dataLoading = false;
 }).error( function(response){alert('failed to invoke service')} );
     };
 	
@@ -91,22 +148,16 @@
     function HomeController($rootScope, $scope,  $http, NgTableParams, consts) {
     	
         var vm = this;
+        vm.dataLoading = true;
         vm.message = "Here it displays table";
         
         vm.user = {firstName : "Hatim"};
         
-        $http.get( consts.apiUrl +  'TableExampleService.php').success(function(response) {
-			/*
-        	response = {
-				success : response.data.status,
-				message : response.data.msg
-			};
-			callback(response);
-			*/
-	
+        $http.post( consts.apiUrl, { 'service':'User', 'method':'tableExample'}).success(function(response) {
         	$scope.users = response.data;
         	
         	$scope.usersTable = new NgTableParams({}, { dataset: $scope.users });
+        	vm.dataLoading = false;
 }).error( function(response){alert('failed to invoke service')} );
     };
   

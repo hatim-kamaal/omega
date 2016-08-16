@@ -20,33 +20,9 @@
 
 		function Login(username, password, callback) {
 
-			/*
-			 * Dummy authentication for testing, uses $timeout to simulate api
-			 * call ----------------------------------------------
-			 * $timeout(function () { var response;
-			 * UserService.GetByUsername(username) .then(function (user) { if
-			 * (user !== null && user.password === password) { response = {
-			 * success: true }; } else { response = { success: false, message:
-			 * 'Username or password is incorrect' }; } callback(response); }); },
-			 * 1000);
-			 */
-			/*
-			 * Use this for real authentication
-			 * ----------------------------------------------
-			 */
-			// $http.post('/api/authenticate', { username: username, password:
-			// password })
-			// .success(function (response) {
-			// callback(response);
-			// });
-
-				$http.get(consts.apiUrl +  'LoginService.php?email='+username+'&code='+password).success(function(response) {
-						response = {
-							success : response.data.status,
-							message : response.data.msg
-						};
+				$http.post(consts.apiUrl, { 'service':'User', 'method':'signin','email': username, 'code':
+					 password }).success(function(response) {
 						callback(response);
-				
 			}).error( function(response){alert('failed to invoke service')} );
 		}
 

@@ -2,13 +2,13 @@
     'use strict';
 
     //, 'ngFacebook'
-    //, 'datatables', 'ngResource',, 'ngTable'
+    //, 'datatables', , 'ngTable' //,'ui.router'
     angular
-        .module('gamerland', ['ngRoute', 'ngCookies', 'ngTable'])
+        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable'])
 		.constant('consts', {
 			appName: 'GamerLand',
 			appVersion: 0.1,
-			apiUrl: 'http://localhost/omega/gamerland/php/'
+			apiUrl: 'http://localhost/omega/gamerland/service/Service.php'
 			})
         .config(config)
         .run(run);
@@ -48,6 +48,12 @@
                 templateUrl: 'view/add.championships.view.html',
                 controllerAs: 'vm'
             })
+            .when('/editcmpnships/:id', {
+                controller: 'EditChampionshipsController',
+                templateUrl: 'view/add.championships.view.html',
+                controllerAs: 'vm'
+            })
+            
 //            .when('/home', {
 //                controller: 'HomeController',
 //                templateUrl: 'view/home.view.html',
