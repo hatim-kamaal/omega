@@ -6,8 +6,25 @@
 			.factory('UserService', UserService)
 			.factory('ChampionshipService', ChampionshipService)
 			.factory('FileUploadService', FileUploadService)
+			.factory('EmailService', EmailService)
 			.factory('FlashService', FlashService);
 
+	
+	EmailService.$inject = [ '$http','consts' ];
+	function EmailService($http,consts) {
+		var service = {};
+	
+		service.SendToAll = SendToAll;
+	
+		return service;
+		
+		function SendToAll(callback) {
+			$http.post( consts.apiUrl , { 'service':'EmailService', 'method':'broadcast'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+	}
+	
 	AuthenticationService.$inject = [ '$http', '$cookieStore', '$rootScope',
 			'$timeout', 'UserService', 'consts' ];
 	function AuthenticationService($http, $cookieStore, $rootScope, $timeout,

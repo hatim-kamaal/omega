@@ -9,8 +9,32 @@
 		.controller('ChampionshipsController',ChampionshipsController)
 		.controller('AddChampionshipsController', AddChampionshipsController)
 		.controller('EditChampionshipsController', EditChampionshipsController)
+		.controller('EmailAllController',EmailAllController)
+		
 		.controller('RnDController', RnDController)
         ;
+    
+    
+    EmailAllController.$inject = ['$scope','FlashService', 'EmailService'];	
+    function EmailAllController($scope, FlashService, EmailService) {
+    	var vm = this;
+    	
+    	vm.SendEmail = SendEmail;
+    	
+    	function SendEmail() {
+    		EmailService.SendToAll(function(r2){
+				if( r2.success ) {
+					FlashService.Success(r2.message);
+				} else {
+					FlashService.Error(r2.message);
+				}
+			});
+    		//FlashService.Success("Subject : " + vm.subject + "<br/> Body" + vm.body );
+    	}
+    	
+    }
+    
+    
 /*
 	    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', 
 	'$http', 'NgTableParams', 'consts', 'FlashService', 'ChampionshipService', 'FileUploadService'];

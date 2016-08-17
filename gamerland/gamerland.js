@@ -54,6 +54,11 @@
                 templateUrl: 'view/add.championships.view.html',
                 controllerAs: 'vm'
             })
+            .when('/email-all', {
+                controller: 'EmailAllController',
+                templateUrl: 'view/email.broadcast.view.html',
+                controllerAs: 'vm'
+            })
             .when('/rnd', {
                 controller: 'RnDController',
                 templateUrl: 'view/rnd.view.html',
