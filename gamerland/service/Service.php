@@ -20,25 +20,11 @@ try {
 	}
 	
 	$data = json_decode(file_get_contents("php://input"));
-	if(!isset($data)) {
-		$data = array();
+	if( !isset($data) ) {
+		throw new Exception('No data found.');
 	}
-	
-	foreach ( $_POST as $key => $val ) {
-		//$this->vb->$key = $val;
-		$data[$key] = $val;
-	}
-	//$data = json_decode(file_get_contents("php://input"));
-	//array_push($data , json_decode(file_get_contents("php://input")));
-	//array_merge($data , json_decode(file_get_contents("php://input")));
-	
-// 	if( !isset($data) ) {
-// 		throw new Exception('No data found.');
-// 	}
-	if( empty($data) ) throw new Exception('No data found.');
 	
 	$service = $data->service;
-	//$service = $data["service"];
 	if( !isset($service) ) {
 		throw new Exception('No service requested.');
 	}

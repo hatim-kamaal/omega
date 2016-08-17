@@ -148,47 +148,53 @@
 		$scope.getTheFiles = function ($files) {
             angular.forEach($files, function (value, key) {
                 formdata.append(key, value);
-                formdata.append('images', value.name);
-                //mfiles = value;
             });
         };
 
 
         function addChampionship() {
             vm.dataLoading = true;
-            formdata.append("service", 'Championship');
-            formdata.append("method", 'update');
-            formdata.append("gameName", vm.gameName);
-            formdata.append("platform", vm.platform);
-            formdata.append("gamePrice", vm.gamePrice);
-            formdata.append("until", vm.until);
-            formdata.append("purchasePrize", vm.purchasePrize);
-            formdata.append("gameType", vm.gameType);
-            formdata.append("UserRegistered", vm.UserRegistered);
-            formdata.append("TotalRounds", vm.TotalRounds);
-            formdata.append("gameId", vm.gameId);
             
             var request = {
                     method: 'POST',
-                    url: consts.apiUrl,
+                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
                     data: formdata,
                     headers: {
                         'Content-Type': undefined
                     }
                 };
+            $http(request)
+            .success(function (d) {
+            	
+            	if( d.success ) {
+            		FlashService.Success("File uploaded, now loading championship details.");
+            		$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: d.message,
+        				gameName: vm.gameName,
+        				platform: vm.platform,
+        				gamePrice: vm.gamePrice,
+        				until: vm.until,
+        				purchasePrize: vm.purchasePrize,
+        				gameType: vm.gameType,
+        				UserRegistered: vm.UserRegistered,
+        				TotalRounds: vm.TotalRounds,
+        				gameId: vm.gameId
+        				}).success(function(response) {
+        					if( response.success ) {
+        						FlashService.Success("Championship is registered successfully.");
+        					} else {
+        						FlashService.Error(response.message);
+        					}
+        				vm.dataLoading = false;
+        			}).error( function(response){alert('failed to invoke service')} );
+            	} else {
+            		FlashService.Error("File upload mesage - " + d.message);
+            		vm.dataLoading = false;
+            	}
+            })
+            .error(function () {
+            });
             
-			$http(request).success(function(response) {
-				if( response.success ) {
-					FlashService.Success("Championship is registered successfully.");
-				} else {
-					FlashService.Error(response.message);
-				}
-					
-			//alert(" RESP : " + response.HATIM);
-        	//$scope.records = response.data.details;        	
-        	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
-				vm.dataLoading = false;
-			}).error( function(response){alert('failed to invoke service')} );			
+						
         };
 		
     };
@@ -280,7 +286,6 @@
         vm.user = {firstName : "Hatim"};
         
         $http.post( consts.apiUrl, { 'service':'User', 'method':'tableExample'}).success(function(response) {
-        	alert(response.message);
         	$scope.users = response.data;
         	
         	$scope.usersTable = new NgTableParams({}, { dataset: $scope.users });

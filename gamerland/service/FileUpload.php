@@ -1,39 +1,19 @@
 <?php
 
-$data = array();
-
-// foreach ( $_GET as $key => $val ) {
-// 	//$this->vb->$key = $val;
-// 	$data[$key] = $val;
-// }
-foreach ( $_POST as $key => $val ) {
-	//$this->vb->$key = $val;
-	$data[$key] = $val;
-}
-
-//$data = json_decode(file_get_contents("php://input"));
-if( empty($data) ) {
-	echo 'No data found.';
-}
- else {
-	echo $data->model->service;
-}
-
 $name = "0";
 
 if ( !empty( $_FILES ) ) {
 	if( isset($_FILES[ $name ]) ) {
 		$tempPath = $_FILES[ $name ][ 'tmp_name' ];
-		//$uploadPath = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $_FILES[ $name ][ 'name' ];
-		$uploadPath = "../uploads/" . $_FILES[ $name ][ 'name' ];
+		$fileName = $_FILES[ $name ][ 'name' ];
+		$uploadPath = "../uploads/$fileName";
 		move_uploaded_file( $tempPath, $uploadPath );
-		$answer = array( 'answer' => 'File transfer completed' );
+		$answer = array( 'success' => true, 'message' => $fileName );
 		$json = json_encode( $answer );
-		//echo $json;
-		echo "file recieved - " . $_POST["gameName"];
+		echo $json;
 	} else {
-		echo "oops file is not file";
+		echo json_encode( array( 'success' => false, 'message' => 'Invalid file variable' ) );
 	}
 } else {
-	echo 'No files';
+	echo json_encode( array( 'success' => false, 'message' => 'NO file recieved.' ) );
 }
