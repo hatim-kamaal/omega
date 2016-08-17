@@ -167,24 +167,6 @@ class Championship {
 	 * @return multitype:boolean string
 	 */
 	function update() {
-		$name = "0";
-		if ( !empty( $_FILES ) ) {
-			if( isset($_FILES[ $name ]) ) {
-				$tempPath = $_FILES[ $name ][ 'tmp_name' ];
-				//$uploadPath = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $_FILES[ $name ][ 'name' ];
-				$uploadPath = "../uploads/" . $_FILES[ $name ][ 'name' ];
-				move_uploaded_file( $tempPath, $uploadPath );
-				$answer = array( 'answer' => 'File transfer completed' );
-				$json = json_encode( $answer );
-				//echo $json;
-				//echo "file recieved - " . $_POST["gameName"];
-			} else {
-				throw new Exception('File param name is invalid.');
-			}
-		} else {
-			throw new Exception('No file recieved.');
-		}
-		
 		$data = $this->data;
 	
 		$gameId = $data->gameId;

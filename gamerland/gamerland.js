@@ -4,11 +4,12 @@
     //, 'ngFacebook'
     //, 'datatables', , 'ngTable' //,'ui.router'
     angular
-        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable'])
+        .module('gamerland', ['ngRoute', 'ngResource','ngCookies', 'ngTable','chart.js'])
 		.constant('consts', {
 			appName: 'GamerLand',
 			appVersion: 0.1,
-			apiUrl: 'http://localhost/omega/gamerland/service/Service.php'
+			apiUrl: 'http://localhost/omega/gamerland/service/Service.php',
+			fileUpoadUrl: 'http://localhost/omega/gamerland/service/FileUpload.php'
 			})
         .config(config)
         .run(run);
@@ -53,19 +54,11 @@
                 templateUrl: 'view/add.championships.view.html',
                 controllerAs: 'vm'
             })
-			.when('/fileupload', {
-                controller: 'FileUploadController',
-                templateUrl: 'view/fileupload.view.html',
+            .when('/rnd', {
+                controller: 'RnDController',
+                templateUrl: 'view/rnd.view.html',
                 controllerAs: 'vm'
             })
-			
-			//
-            
-//            .when('/home', {
-//                controller: 'HomeController',
-//                templateUrl: 'view/home.view.html',
-//                controllerAs: 'vm'
-//            })
             /*
             
             .when('/register', {

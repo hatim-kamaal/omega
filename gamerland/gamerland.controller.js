@@ -9,257 +9,167 @@
 		.controller('ChampionshipsController',ChampionshipsController)
 		.controller('AddChampionshipsController', AddChampionshipsController)
 		.controller('EditChampionshipsController', EditChampionshipsController)
-		
-		.controller('FileUploadController', FileUploadController)
-		
+		.controller('RnDController', RnDController)
         ;
-    
+/*
+	    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', 
+	'$http', 'NgTableParams', 'consts', 'FlashService', 'ChampionshipService', 'FileUploadService'];
 	
-	FileUploadController.$inject = ['$rootScope','$scope', 'fileUpload', 'FlashService', '$http'];
-    function FileUploadController($rootScope, $scope, fileUpload, FlashService, $http) {
-    	
-        var vm = this;
-		vm.uploadData = uploadData;
-		
-		var formdata = new FormData();
-		$scope.getTheFiles = function ($files) {
-            angular.forEach($files, function (value, key) {
-                formdata.append(key, value);
-                formdata.append('images', value.name);
-                //mfiles = value;
-            });
-        };
-		
-		function uploadData() {
-			//alert("I am being invoked" + mfiles);
-			
-			formdata.append("gameName" , vm.gameName);
-			
-			var request = {
-                    method: 'POST',
-                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
-                    data: formdata,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                };
-			
-//			var data = {'service':'Championship'};
-			
-			
-//			var request = {
-//                    method: 'POST',
-//                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
-//                    transformRequest: function (data) {
-//                        var formData = new FormData();
-//                        //need to convert our json object to a string version of json otherwise
-//                        // the browser will do a 'toString()' on the object which will result 
-//                        // in the value '[Object object]' on the server.
-//                        formData.append("model", data.model);
-//                        //now add all of the assigned files
-//                        for (var i = 0; i < data.files; i++) {
-//                            //add each file to the form data and iteratively name them
-//                            formData.append(i, data.files[i]);
-//                        }
-//                        return formData;
-//                    },
-//                    data: { model: data, files: mfiles },
-//                    headers: {
-//                        'Content-Type': undefined
-//                    }
-//                };
-
-
-                // SEND THE FILES.
-                $http(request)
-                    .success(function (d) {
-                        alert(d);
-                    })
-                    .error(function () {
-                    });
-			
-//            //vm.dataLoading = true;
-//			//var file = vm.myFile;
-//			
-//			//fileUpload.uploadFileToUrl(file, "http://localhost/omega/gamerland/service/FileUpload.php");
-
-			//var file = vm.myFile;
-			//var uploadUrl = 'http://localhost/omega/gamerland/service/FileUpload.php';
-			//fileUpload.uploadFileToUrl(file, uploadUrl);
-			
-			/*
-			$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: vm.images,
-				gameName: vm.gameName,
-				platform: vm.platform,
-				gamePrice: vm.gamePrice,
-				until: vm.until,
-				purchasePrize: vm.purchasePrize,
-				gameType: vm.gameType,
-				UserRegistered: vm.UserRegistered,
-				TotalRounds: vm.TotalRounds,
-				gameId: vm.gameId
-				}).success(function(response) {
-				
-					if( response.success ) {
-						FlashService.Success("Championship is registered successfully.");
-					} else {
-						FlashService.Error(response.message);
-					}
-					
-			//alert(" RESP : " + response.HATIM);
-        	//$scope.records = response.data.details;        	
-        	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
-				vm.dataLoading = false;
-			}).error( function(response){alert('failed to invoke service')} );	
-			*/			
-        };
-		
-	};
-	
-    EditChampionshipsController.$inject = ['$rootScope','$scope', '$routeParams', 
-	'$http', 'NgTableParams', 'consts', 'FlashService'];
     function EditChampionshipsController($rootScope, $scope, $routeParams, 
-	$http, NgTableParams, consts, FlashService) {
+	$http, NgTableParams, consts, FlashService, ChampionshipService, FileUploadService) {
+	*/
+	
+    RnDController.$inject = ['$scope','FlashService'];	
+    function RnDController($scope, FlashService) {
+		FlashService.Success("You are at RnD page");
+		
+		  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+		  $scope.series = ['Series A', 'Series B'];
+		  $scope.data = [
+			[65, 59, 80, 81, 56, 55, 40],
+			[28, 48, 40, 19, 86, 27, 90]
+		  ];
+		  $scope.onClick = function (points, evt) {
+			console.log(points, evt);
+		  };
+		  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+		  $scope.options = {
+			scales: {
+			  yAxes: [
+				{
+				  id: 'y-axis-1',
+				  type: 'linear',
+				  display: true,
+				  position: 'left'
+				},
+				{
+				  id: 'y-axis-2',
+				  type: 'linear',
+				  display: true,
+				  position: 'right'
+				}
+			  ]
+			}
+		  };
+	}	
+	
+    EditChampionshipsController.$inject = ['$routeParams','FlashService', 'ChampionshipService', 'FileUploadService'];	
+    function EditChampionshipsController($routeParams, FlashService, ChampionshipService, FileUploadService) {
     	
         var vm = this;
+		vm.dataLoading = true;
 		vm.edit = true;
         vm.mode = "Edit";
-        vm.gameId = $routeParams.id;
-        $http.post( consts.apiUrl , { 'service':'Championship', 'method':'getById', 'id':$routeParams.id}).success(function(response) {
-        	
-        	vm.gameName = response.data.gameName;
-        	vm.images = response.data.images;
-            vm.platform = response.data.platform;
-            vm.gamePrice = response.data.gamePrice;
-            vm.until = response.data.until;
-            vm.purchasePrize = response.data.purchasePrize;
-            vm.gameType = response.data.gameType;
-            vm.UserRegistered = response.data.UserRegistered;
-            vm.TotalRounds = response.data.TotalRounds;
-        	
-        	$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
-        	vm.dataLoading = false;
-        }).error( function(response){alert('failed to invoke service')} );
-        
-        
+        vm.gameId = $routeParams.id;	
         vm.addChampionship = addChampionship;
+		
+		ChampionshipService.GetById($routeParams.id,function(response){
+			if( response.success ) {
+				vm.gameName = response.data.gameName;
+				vm.images = response.data.images;
+				vm.platform = response.data.platform;
+				vm.gamePrice = response.data.gamePrice;
+				vm.until = response.data.until;
+				vm.purchasePrize = response.data.purchasePrize;
+				vm.gameType = response.data.gameType;
+				vm.UserRegistered = response.data.UserRegistered;
+				vm.TotalRounds = response.data.TotalRounds;
+			} else {
+				FlashService.Error("Technical issue collecting the value.");
+			}
+        	vm.dataLoading = false;
+		});
         
 		var formdata = new FormData();
-		$scope.getTheFiles = function ($files) {
+		vm.getTheFiles = function ($files) {
             angular.forEach($files, function (value, key) {
                 formdata.append(key, value);
             });
         };
-
-
         function addChampionship() {
             vm.dataLoading = true;
             
-            var request = {
-                    method: 'POST',
-                    url: 'http://localhost/omega/gamerland/service/FileUpload.php',
-                    data: formdata,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                };
-            $http(request)
-            .success(function (d) {
-            	
-            	if( d.success ) {
-            		FlashService.Success("File uploaded, now loading championship details.");
-            		$http.post( consts.apiUrl, {'service':'Championship', 'method':'update',images: d.message,
-        				gameName: vm.gameName,
-        				platform: vm.platform,
-        				gamePrice: vm.gamePrice,
-        				until: vm.until,
-        				purchasePrize: vm.purchasePrize,
-        				gameType: vm.gameType,
-        				UserRegistered: vm.UserRegistered,
-        				TotalRounds: vm.TotalRounds,
-        				gameId: vm.gameId
-        				}).success(function(response) {
-        					if( response.success ) {
-        						FlashService.Success("Championship is registered successfully.");
-        					} else {
-        						FlashService.Error(response.message);
-        					}
-        				vm.dataLoading = false;
-        			}).error( function(response){alert('failed to invoke service')} );
-            	} else {
-            		FlashService.Error("File upload mesage - " + d.message);
-            		vm.dataLoading = false;
-            	}
-            })
-            .error(function () {
-            });
-            
-						
-        };
-		
+			FileUploadService.UploadOnServer(formdata, function(response){
+				if( response.success ) {
+					FlashService.Success("File uploaded, now loading championship details.");
+					ChampionshipService.Update( response.message, vm, function(r2){
+						if( r2.success ) {
+							FlashService.Success("Championship details update successfully.");
+						} else {
+							FlashService.Error(r2.message);
+						}
+					} );
+				} else {
+					FlashService.Error(response.message);
+				}
+				vm.dataLoading = false;
+			});
+        };		
     };
-    
-	AddChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts', 'FlashService'];
-    function AddChampionshipsController($rootScope, $scope, $http, NgTableParams, consts, FlashService) {
+
+/*
+	AddChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts', 'FlashService', 'ChampionshipService', 'FileUploadService'];
+    function AddChampionshipsController($rootScope, $scope, $http, NgTableParams, consts, FlashService, ChampionshipService, FileUploadService) {
+
+*/    
+	AddChampionshipsController.$inject = ['FlashService', 'ChampionshipService', 'FileUploadService'];
+    function AddChampionshipsController(FlashService, ChampionshipService, FileUploadService) {
     	
         var vm = this;
 		vm.edit = false;
         vm.mode = "Add";
         
-        vm.images = "fifa.png";
-        vm.platform = "PLAYSTATION 4";
-        vm.gamePrice = "99";
-        vm.until = "09/30/2016";
-        vm.purchasePrize = "200";
-        vm.gameType = "NUMERIC";
-        vm.UserRegistered = "1";
-        vm.TotalRounds = "1";
-        
-
         vm.addChampionship = addChampionship;
-
-        function addChampionship() {
-            vm.dataLoading = true;
-			$http.post( consts.apiUrl, {'service':'Championship', 'method':'create',images: vm.images,
-				gameName: vm.gameName,
-				platform: vm.platform,
-				gamePrice: vm.gamePrice,
-				until: vm.until,
-				purchasePrize: vm.purchasePrize,
-				gameType: vm.gameType,
-				UserRegistered: vm.UserRegistered,
-				TotalRounds: vm.TotalRounds
-				}).success(function(response) {
-				
-					if( response.success ) {
-					
-					FlashService.Success("Championship is registered successfully.");
-					} else {
-						FlashService.Error(response.message);
-					}
-					
-			//alert(" RESP : " + response.HATIM);
-        	//$scope.records = response.data.details;        	
-        	//$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
-				vm.dataLoading = false;
-			}).error( function(response){alert('failed to invoke service')} );			
-        };
 		
+		var formdata = new FormData();
+		vm.getTheFiles = function ($files) {
+            angular.forEach($files, function (value, key) {
+                formdata.append(key, value);
+            });
+        };
+
+		function addChampionship() {
+            vm.dataLoading = true;
+            
+			FileUploadService.UploadOnServer(formdata, function(response){
+				if( response.success ) {
+					FlashService.Success("File uploaded, now loading championship details.");
+					ChampionshipService.Create( response.message, vm, function(r2){
+						if( r2.success ) {
+							FlashService.Success("Championship details added successfully.");
+						} else {
+							FlashService.Error(r2.message);
+						}
+					} );
+				} else {
+					FlashService.Error(response.message);
+				}
+				vm.dataLoading = false;
+			});
+        };		
     };
 	
-	ChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts'];
-    function ChampionshipsController($rootScope, $scope,  $http, NgTableParams, consts) {
+	/*
+	ChampionshipsController.$inject = ['$rootScope','$scope',  '$http', 'NgTableParams', 'consts', 'ChampionshipService'];
+    function ChampionshipsController($rootScope, $scope,  $http, NgTableParams, consts , ChampionshipService) {
+	*/
+	
+	ChampionshipsController.$inject = ['$scope',  'NgTableParams', 'ChampionshipService'];
+    function ChampionshipsController($scope,  NgTableParams, ChampionshipService) {
     	
         var vm = this;
         vm.dataLoading = true;
         vm.message = "Here it displays table";
-        
-        $http.post( consts.apiUrl , { 'service':'Championship', 'method':'get'}).success(function(response) {
-			//alert(response.data);
-        	$scope.records = response.data;        	
-        	$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
-        	vm.dataLoading = false;
-}).error( function(response){alert('failed to invoke service')} );
+		
+		ChampionshipService.GetAll(function(response) {
+			if( response.success ) {
+				$scope.records = response.data;
+				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+			} else {
+				alert("Nowjhfjksah dkjshdf ksahd ksa ");
+			}
+			vm.dataLoading = false;
+		});		
     };
 	
 	LogoutController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
@@ -317,7 +227,7 @@
             });
         };
     };
-
+	
     
     
     LandingController.$inject = ['UserService', '$rootScope', '$scope'];

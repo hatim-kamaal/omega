@@ -4,6 +4,8 @@
 	angular.module('gamerland').factory('AuthenticationService',
 			AuthenticationService)
 			.factory('UserService', UserService)
+			.factory('ChampionshipService', ChampionshipService)
+			.factory('FileUploadService', FileUploadService)
 			.factory('FlashService', FlashService);
 
 	AuthenticationService.$inject = [ '$http', '$cookieStore', '$rootScope',
@@ -131,6 +133,98 @@
 		}
 	};
 	
+	
+	FileUploadService.$inject = ['$http', 'consts'];
+    function FileUploadService($http , consts) {
+        var service = {};
+        service.UploadOnServer = UploadOnServer;
+        return service;
+
+        function UploadOnServer(formdata , callback) {
+            $http({ method: 'POST',
+                    url: consts.fileUpoadUrl,
+                    data: formdata,
+                    headers: {'Content-Type': undefined }
+                })
+			.success(function(response){callback(response);})
+			.error( function(response){callback({success:false, message:"Service invokation error."});});
+        }
+    };
+	
+	//ChampionshipService
+	
+	ChampionshipService.$inject = ['$http', 'consts'];
+    function ChampionshipService($http , consts) {
+        var service = {};
+
+        service.GetAll = GetAll;
+        service.GetById = GetById;
+        service.Create = Create;
+        service.Update = Update;
+		/*
+        service.Delete = Delete;
+		*/
+
+        return service;
+
+        function GetAll(callback) {
+			$http.post( consts.apiUrl , { 'service':'Championship', 'method':'get'})			
+			.success(function(response) {			
+			callback(response);
+			}).error( function(response){				
+				callback({ success: false, message: "Service invokation error." }) ;				
+			} );
+        }
+        function GetById(id , callback) {
+			$http.post( consts.apiUrl , { 'service':'Championship', 'method':'getById', 'id':id})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+		
+        function Create(fileName, vm , callback) {
+            $http.post( consts.apiUrl , 
+			{'service':'Championship', 'method':'create',images: fileName,
+        	gameName: vm.gameName,platform: vm.platform,gamePrice: vm.gamePrice,
+        	until: vm.until,purchasePrize: vm.purchasePrize,gameType: vm.gameType,
+        	UserRegistered: vm.UserRegistered,TotalRounds: vm.TotalRounds})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+
+		function Update(fileName, vm , callback) {
+            $http.post( consts.apiUrl , 
+			{'service':'Championship', 'method':'update',images: fileName,
+        	gameName: vm.gameName,platform: vm.platform,gamePrice: vm.gamePrice,
+        	until: vm.until,purchasePrize: vm.purchasePrize,gameType: vm.gameType,
+        	UserRegistered: vm.UserRegistered,TotalRounds: vm.TotalRounds,
+        	gameId: vm.gameId})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+
+		/*
+        function GetByUsername(username) {
+            return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
+        }
+
+        function Delete(id) {
+            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
+        }
+		*/
+        // private functions
+
+        function handleSuccess(res) {
+			alert("Service finished");
+            return res;
+        }
+
+        function handleError(error) {
+            return function () {
+                return { success: false, message: error };
+            };
+        }
+		
+    };
 	
 	UserService.$inject = ['$http'];
     function UserService($http) {
