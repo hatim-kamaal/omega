@@ -64,6 +64,16 @@
                 templateUrl: 'view/email.template.view.html',
                 controllerAs: 'vm'
             })
+            .when('/users', {
+                controller: 'UserController',
+                templateUrl: 'view/users.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/report-champs', {
+                controller: 'ReportChampsController',
+                templateUrl: 'view/report.championship.view.html',
+                controllerAs: 'vm'
+            })
             .when('/rnd', {
                 controller: 'RnDController',
                 templateUrl: 'view/rnd.view.html',

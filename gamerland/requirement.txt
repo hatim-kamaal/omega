@@ -8,13 +8,18 @@ This Admin page must have the following features:
 - Send and Edit the e-mails that are sent automatically to the users
 - See a report of payments received
 - Make payments
-- See the users that are registered on Gamrland (iOS, Android or Website)
+- See the users that are registered on Gamrland (iOS, Android or Website) - 70% Completed
 - Reset passwords for users when they forget it
 - Control of orders, visits, etc
-- Report of how many championships were created for each platform, game, etc
+- Report of how many championships were created for each platform, game, etc - 60% completed
 - How much money was spent by each user (ranking)
-- send e-mail marketing for every user registered on the App
+- send e-mail marketing for every user registered on the App   -- 50% done
 - And another features that might come up during the process
+
+
+
+
+
 
 
 http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.min.js

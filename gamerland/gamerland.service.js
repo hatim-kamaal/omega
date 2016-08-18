@@ -193,12 +193,22 @@
         service.GetById = GetById;
         service.Create = Create;
         service.Update = Update;
+        service.GetStats = GetStats;
 		/*
         service.Delete = Delete;
 		*/
 
         return service;
 
+        function GetStats(callback) {
+        	$http.post( consts.apiUrl , { 'service':'Championship', 'method':'getStats'})			
+			.success(function(response) {			
+			callback(response);
+			}).error( function(response){				
+				callback({ success: false, message: "Service invokation error." }) ;				
+			} );
+        }
+        
         function GetAll(callback) {
 			$http.post( consts.apiUrl , { 'service':'Championship', 'method':'get'})			
 			.success(function(response) {			
@@ -258,53 +268,16 @@
 		
     };
 	
-	UserService.$inject = ['$http'];
-    function UserService($http) {
+	UserService.$inject = ['$http','consts'];
+    function UserService($http,consts) {
         var service = {};
-
         service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.GetByUsername = GetByUsername;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
-
         return service;
 
-        function GetAll() {
-            return $http.get('/services/member').then(handleSuccess, handleError('Error getting all users'));
-        }
-
-        function GetById(id) {
-            return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
-        }
-
-        function GetByUsername(username) {
-            return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
-        }
-
-        function Create(user) {
-            return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
-        }
-
-        function Update(user) {
-            return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
-        }
-
-        function Delete(id) {
-            return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
-        }
-
-        // private functions
-
-        function handleSuccess(res) {
-            return res.data;
-        }
-
-        function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+        function GetAll(callback) {
+			$http.post( consts.apiUrl , { 'service':'User', 'method':'getRegisteredUsers'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
         }
     };
     

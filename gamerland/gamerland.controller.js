@@ -11,9 +11,47 @@
 		.controller('EditChampionshipsController', EditChampionshipsController)
 		.controller('EmailAllController',EmailAllController)
 		.controller('EmailTemplateController',EmailTemplateController)
+		.controller('UserController',UserController)
+		.controller('ReportChampsController',ReportChampsController)
 		
 		.controller('RnDController', RnDController)
         ;
+
+    ReportChampsController.$inject = ['$scope','FlashService','ChampionshipService'];	
+    function ReportChampsController($scope, FlashService,ChampionshipService) {
+    	
+    	ChampionshipService.GetStats(function(r2){
+			if( r2.success ) {
+				
+				$scope.pielabels = r2.data.names;
+				$scope.piedata = r2.data.counts;
+//				$scope.records = r2.data;
+//				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+			} else {
+				FlashService.Error(r2.message);
+			}
+			vm.dataLoading = false;
+		});
+    	
+//		var vm = this;
+//		$scope.pielabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+//		$scope.piedata = [300, 500, 100];
+    };
+    
+    UserController.$inject = ['$scope','FlashService', 'UserService', 'NgTableParams'];	
+    function UserController($scope, FlashService, UserService,NgTableParams) {
+    	var vm = this;
+		vm.dataLoading = true;
+		UserService.GetAll(function(r2){
+			if( r2.success ) {
+				$scope.records = r2.data;
+				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+			} else {
+				FlashService.Error(r2.message);
+			}
+			vm.dataLoading = false;
+		});
+    };
     
     EmailTemplateController.$inject = ['$scope','FlashService', 'EmailService', 'NgTableParams'];	
     function EmailTemplateController($scope, FlashService, EmailService,NgTableParams) {
@@ -74,6 +112,11 @@
     RnDController.$inject = ['$scope','FlashService'];	
     function RnDController($scope, FlashService) {
 		FlashService.Success("You are at RnD page");
+		
+		 $scope.pielabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+		  $scope.piedata = [300, 500, 100];
+		
+		
 		
 		  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 		  $scope.series = ['Series A', 'Series B'];

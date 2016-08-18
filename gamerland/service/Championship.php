@@ -52,18 +52,6 @@ class Championship {
 			array_push( $records, array( 'imgId'=>$c0,'gameName'=>$c1, 'images'=>$c2 , 'platform'=>$c3
 			, 'gamePrice'=>$c4 , 'until'=>$c5 , 'purchasePrize'=>$c6 , 'gameType'=>$c7, 'UserRegistered'=>$c8
 			, 'TotalRounds'=>$c9) );
-			
-			/*
-			$c1 = $row[0];
-			$c2 = $row[1];
-			$c3 = $row[2];
-			$c4 = $row[3];
-			$c5 = $row[4];
-			$c6 = $row[5];
-
-			array_push( $records, array( 'c1'=>$c1, 'c2'=>$c2 , 'c3'=>$c3
-			, 'c4'=>$c4 , 'c5'=>$c5 , 'c6'=>$c6 ) );
-			*/
 		}
 
 		$this->conn->close();
@@ -77,8 +65,6 @@ class Championship {
 	 * @return multitype:boolean string multitype:unknown
 	 */
 	function getById() {
-		//return $output = array( 'success'=>true, 'message'=>'Found the record.' );
-		//throw new Exception('Technical issue#1');
 		$id = $this->data->id;
 
 		$rs = $this->conn->query("SELECT imgId, gameName, images,platform, 
@@ -95,16 +81,6 @@ class Championship {
 
 		$records = array();
 
-// 		vm.gameName = response.data.gameName;
-// 		vm.images = response.data.images;
-// 		vm.platform = response.data.platform;
-// 		vm.gamePrice = response.data.gamePrice;
-// 		vm.until = response.data.until;
-// 		vm.purchasePrize = response.data.purchasePrize;
-// 		vm.gameType = response.data.gameType;
-// 		vm.UserRegistered = response.data.UserRegistered;
-// 		vm.TotalRounds = response.data.TotalRounds;
-		
 		$c = 0;
 		$row = mysqli_fetch_row ( $rs );
 		$c0 = $row[$c++];
@@ -194,6 +170,39 @@ class Championship {
 		$this->conn->close();
 	
 		return $output = array( 'success'=>true, 'message'=>'Record has been updated.');
+	}
+	
+	function getStats() {
+// 		, gameName, images,platform,
+// 		gamePrice,until,purchasePrize,gameType,UserRegistered,TotalRounds
+		$rs = $this->conn->query("SELECT platform , count(platform)
+				FROM ImagesTable GROUP BY platform");
+		
+		if( !isset($rs) ) {
+			throw new Exception('Technical issue#1');
+		}
+
+		if (!($rs instanceof mysqli_result)) {
+			throw new Exception('Technical issue#2');
+		}
+
+		$names = array();
+		$counts = array();
+
+		while($row = mysqli_fetch_row ( $rs )) {
+			$c0 = $row[0];
+			$c1 = $row[1];
+
+			$names[] = $c0;
+			$counts[] = $c1;
+		//array_push( $names, array( 'name'=>$c0,'count'=>$c1) );
+		}
+
+		$records = array('names'=>$names,'counts'=>$counts);
+		
+		$this->conn->close();
+
+		return array( 'success'=>true, 'message'=>'Found the record.', 'data'=> $records);
 	}
 	
 }
