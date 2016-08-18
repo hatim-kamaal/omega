@@ -1,0 +1,4 @@
+id,event,status,template
+1,"On whatever",true,"Template for whatever"
+2,"On password change",true,"Your password is changed"
+3,"On request forget password",false,"Change your password"

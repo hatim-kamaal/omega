@@ -18,7 +18,16 @@
     <ul class="nav navbar-nav">
       <!--li class="active"><a href="#">Home</a></li-->
 	  <li><a ng-if="authen" href="#/rnd">RnD</a></li>
-	  <li><a ng-if="authen" href="#/email-all">Email-All</a></li>
+	  <li role="presentation" class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+	      Email <span class="caret"></span>
+	    </a>
+	    <ul class="dropdown-menu">
+	      <li><a ng-if="authen" href="#/email-all">Email-All</a></li>
+		  <li><a ng-if="authen" href="#/email-tmplte">Email templates</a></li>
+	    </ul>
+	  </li>
+	  
 	  <!--li><a ng-if="authen" href="#/fileupload">File Upload</a></li>
       <li><a ng-if="authen" href="#/editcmpnships/1">Edit Championships</a></li-->
       

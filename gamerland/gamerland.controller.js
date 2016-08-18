@@ -10,17 +10,47 @@
 		.controller('AddChampionshipsController', AddChampionshipsController)
 		.controller('EditChampionshipsController', EditChampionshipsController)
 		.controller('EmailAllController',EmailAllController)
+		.controller('EmailTemplateController',EmailTemplateController)
 		
 		.controller('RnDController', RnDController)
         ;
     
+    EmailTemplateController.$inject = ['$scope','FlashService', 'EmailService', 'NgTableParams'];	
+    function EmailTemplateController($scope, FlashService, EmailService,NgTableParams) {
+    	var vm = this;
+		vm.dataLoading = true;
+		EmailService.GetAllTemplate(function(r2){
+			if( r2.success ) {
+				//FlashService.Success(r2.message);
+				$scope.records = r2.data;
+				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+			} else {
+				FlashService.Error(r2.message);
+			}
+			vm.dataLoading = false;
+		});
+		
+		vm.save = Save;
+		
+		function Save() {
+			alert("Save method called");
+			vm.dataSaving = true;
+			EmailService.EditTemplate(vm, function(r2){
+				if( r2.success ) {
+					FlashService.Success(r2.message);
+				} else {
+					FlashService.Error(r2.message);
+				}
+				vm.dataSaving = false;
+			});
+		}		
+    };
+
     
     EmailAllController.$inject = ['$scope','FlashService', 'EmailService'];	
     function EmailAllController($scope, FlashService, EmailService) {
     	var vm = this;
-    	
     	vm.SendEmail = SendEmail;
-    	
     	function SendEmail() {
     		EmailService.SendToAll(function(r2){
 				if( r2.success ) {
@@ -29,10 +59,8 @@
 					FlashService.Error(r2.message);
 				}
 			});
-    		//FlashService.Success("Subject : " + vm.subject + "<br/> Body" + vm.body );
-    	}
-    	
-    }
+    	};
+    };
     
     
 /*

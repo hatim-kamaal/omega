@@ -59,6 +59,11 @@
                 templateUrl: 'view/email.broadcast.view.html',
                 controllerAs: 'vm'
             })
+            .when('/email-tmplte', {
+                controller: 'EmailTemplateController',
+                templateUrl: 'view/email.template.view.html',
+                controllerAs: 'vm'
+            })
             .when('/rnd', {
                 controller: 'RnDController',
                 templateUrl: 'view/rnd.view.html',

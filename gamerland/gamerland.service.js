@@ -15,6 +15,8 @@
 		var service = {};
 	
 		service.SendToAll = SendToAll;
+		service.GetAllTemplate = GetAllTemplate;
+		service.EditTemplate = EditTemplate;
 	
 		return service;
 		
@@ -23,6 +25,19 @@
 			.success(function(response){callback(response);})
 			.error(function(response){callback({success:false,message:"Service invokation error."});});
         }
+		
+		function GetAllTemplate(callback) {
+			$http.post( consts.apiUrl , { 'service':'CSVService', 'method':'getAllContent'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+
+		function EditTemplate(data,callback) {
+			alert("Edit template service invoked..");
+			$http.post( consts.apiUrl , { 'service':'CSVService', 'method':'editContent', 'id':1, 'event':data.event,'status':true,'template':data.body})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }		
 	}
 	
 	AuthenticationService.$inject = [ '$http', '$cookieStore', '$rootScope',
