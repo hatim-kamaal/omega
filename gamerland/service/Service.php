@@ -14,7 +14,8 @@ try {
 		throw new Exception('Invalid request type.');
 	}
 
-	$conn = mysqli_connect( '208.91.198.197', 'championship', 'championship@123' , 'Championship');
+	//$conn = mysqli_connect( '208.91.198.197', 'championship', 'championship@123' , 'Championship');
+	$conn = mysqli_connect( 'localhost', 'root', '' , 'Championship');
 	if( !$conn ) {
 		throw new Exception('No database connection.');
 	}

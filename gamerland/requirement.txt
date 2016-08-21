@@ -12,8 +12,10 @@ This Admin page must have the following features:
 - Reset passwords for users when they forget it
 - Control of orders, visits, etc
 - Report of how many championships were created for each platform, game, etc - 60% completed
-- How much money was spent by each user (ranking)
+- How much money was spent by each user (ranking) - 50% done
 - send e-mail marketing for every user registered on the App   -- 50% done
+
+
 - And another features that might come up during the process
 
 

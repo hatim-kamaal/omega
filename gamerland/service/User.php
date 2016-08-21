@@ -69,4 +69,65 @@ class User {
 		return array( 'success'=>true, 'message'=>'Found the record.', 'data'=> $records);
 	}
 	
+	/**
+	 * 
+	 * @throws Exception
+	 * @return multitype:boolean string multitype:
+	 */
+	function getUserByRank() {
+		
+		$query = "SELECT u.user_id,u.fullname,u.username,f.spent  
+				FROM User u, (SELECT userid, sum(spent) as spent FROM FinancialSummary
+				GROUP BY userid) f where u.user_id = f.userid
+				ORDER BY f.spent";
+		
+		$rs = $this->conn->query($query);
+	
+		if( !isset($rs) ) {
+			throw new Exception('Technical issue#1');
+		}
+	
+		if (!($rs instanceof mysqli_result)) {
+			throw new Exception('Technical issue#2');
+		}
+	
+		$records = array();
+	
+		while($row = mysqli_fetch_row ( $rs )) {
+			$c = 0;
+			$user_id = $row[$c++];
+			$fullname = $row[$c++];
+			$username = $row[$c++];
+			$spent = $row[$c++];
+	
+			array_push( $records, array( 'user_id'=>$user_id,'fullname'=>$fullname,'username'=>$username , 'spent'=>$spent
+// 			 , 'platform'=>$platform
+// 			,  'language'=>$language , 'profile_pic'=>$profile_pic , 'email'=>$email
+			) );
+		}
+	
+		$this->conn->close();
+	
+		return array( 'success'=>true, 'message'=>'Found the record.', 'data'=> $records);
+	}
+	
+	/**
+	 * 
+	 * @return multitype:boolean string
+	 */
+	function confirmResetPasswordRequest() {
+		return array( 'success'=>true, 'message'=>'Valid');
+	}
+	
+	/**
+	 * 
+	 */
+	function resetPassword() {
+		$pwd = $this->data->password;
+		$code = $this->data->request_key;
+		
+		
+		return array( 'success'=>true, 'message'=>"Your password is reset successfully. $pwd  $code");
+	}
+	
 }

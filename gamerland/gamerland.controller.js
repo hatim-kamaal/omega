@@ -13,10 +13,58 @@
 		.controller('EmailTemplateController',EmailTemplateController)
 		.controller('UserController',UserController)
 		.controller('ReportChampsController',ReportChampsController)
+		.controller('UserRankController',UserRankController)
+		.controller('ResetPasswordController',ResetPasswordController)
 		
 		.controller('RnDController', RnDController)
         ;
 
+    ResetPasswordController.$inject = ['$location', 'UserService', 'FlashService'];
+    function ResetPasswordController($location, UserService, FlashService) {
+        var vm = this;
+
+        vm.login = login;
+
+        
+        (function initController() {
+        	UserService.ConfirmResetRequest(function (response) {
+                if (response.success) {
+                	FlashService.Success("Please reset your password here.");
+                } else {
+                    FlashService.Error(response.message);
+                }
+            });
+        })();
+
+        function login() {
+            vm.dataLoading = true;
+            UserService.ResetPassword(vm.password1, '123456789', function (response) {
+                if (response.success) {
+                	FlashService.Success(response.message);
+                } else {
+                    FlashService.Error(response.message);
+                }
+                vm.dataLoading = false;
+            });
+        };
+    };
+    
+    UserRankController.$inject = ['$scope','FlashService', 'UserService', 'NgTableParams'];	
+    function UserRankController($scope, FlashService, UserService,NgTableParams) {
+    	var vm = this;
+		vm.dataLoading = true;
+		UserService.GetUserByRank(function(r2){
+			if( r2.success ) {
+				$scope.records = r2.data;
+				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
+			} else {
+				FlashService.Error(r2.message);
+			}
+			vm.dataLoading = false;
+		});
+    };
+    
+    
     ReportChampsController.$inject = ['$scope','FlashService','ChampionshipService'];	
     function ReportChampsController($scope, FlashService,ChampionshipService) {
     	
@@ -25,17 +73,11 @@
 				
 				$scope.pielabels = r2.data.names;
 				$scope.piedata = r2.data.counts;
-//				$scope.records = r2.data;
-//				$scope.usersTable = new NgTableParams({}, { dataset: $scope.records });
 			} else {
 				FlashService.Error(r2.message);
 			}
 			vm.dataLoading = false;
 		});
-    	
-//		var vm = this;
-//		$scope.pielabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-//		$scope.piedata = [300, 500, 100];
     };
     
     UserController.$inject = ['$scope','FlashService', 'UserService', 'NgTableParams'];	

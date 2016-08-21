@@ -38,7 +38,7 @@
 			.success(function(response){callback(response);})
 			.error(function(response){callback({success:false,message:"Service invokation error."});});
         }		
-	}
+	};
 	
 	AuthenticationService.$inject = [ '$http', '$cookieStore', '$rootScope',
 			'$timeout', 'UserService', 'consts' ];
@@ -272,10 +272,28 @@
     function UserService($http,consts) {
         var service = {};
         service.GetAll = GetAll;
+        service.GetUserByRank = GetUserByRank;
+        service.ConfirmResetRequest = ConfirmResetRequest;
+        service.ResetPassword = ResetPassword;
         return service;
 
         function GetAll(callback) {
 			$http.post( consts.apiUrl , { 'service':'User', 'method':'getRegisteredUsers'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+        function GetUserByRank(callback) {
+			$http.post( consts.apiUrl , { 'service':'User', 'method':'getUserByRank'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+        function ConfirmResetRequest(callback) {
+			$http.post( consts.apiUrl , { 'service':'User', 'method':'confirmResetPasswordRequest'})
+			.success(function(response){callback(response);})
+			.error(function(response){callback({success:false,message:"Service invokation error."});});
+        }
+        function ResetPassword(pwd, code, callback) {
+			$http.post( consts.apiUrl , { 'service':'User', 'method':'resetPassword', 'password':pwd,'request_key':code})
 			.success(function(response){callback(response);})
 			.error(function(response){callback({success:false,message:"Service invokation error."});});
         }

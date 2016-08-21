@@ -74,6 +74,16 @@
                 templateUrl: 'view/report.championship.view.html',
                 controllerAs: 'vm'
             })
+            .when('/user-rank', {
+                controller: 'UserRankController',
+                templateUrl: 'view/report.user.rank.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/pwd-reset', {
+                controller: 'ResetPasswordController',
+                templateUrl: 'view/reset.password.view.html',
+                controllerAs: 'vm'
+            })
             .when('/rnd', {
                 controller: 'RnDController',
                 templateUrl: 'view/rnd.view.html',
@@ -134,7 +144,7 @@
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page
-            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var restrictedPage = $.inArray($location.path(), ['/login', '/pwd-reset']) === -1;
             var loggedIn = $rootScope.globals.currentUser;
             if(loggedIn){
             	$rootScope.authen = true;
