@@ -1,5 +1,10 @@
 <h1>Championship</h1>
 
+<select id="sss" ng-model="vm.type" ng-change="vm.changeType()">
+	<option value='platform'>Platform</option>
+	<option value='gameType'>Game</option>
+</select>
+
 <canvas id="pie" class="chart chart-pie"
   chart-data="piedata" chart-labels="pielabels" chart-options="pieoptions">
 </canvas> 

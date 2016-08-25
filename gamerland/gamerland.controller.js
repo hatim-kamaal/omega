@@ -67,8 +67,23 @@
     
     ReportChampsController.$inject = ['$scope','FlashService','ChampionshipService'];	
     function ReportChampsController($scope, FlashService,ChampionshipService) {
-    	
-    	ChampionshipService.GetStats(function(r2){
+    	var vm = this;
+		vm.dataLoading = true;
+		vm.type = "platform";
+		vm.changeType = function(){
+			ChampionshipService.GetStats(vm.type , function(r2){
+				if( r2.success ) {
+					
+					$scope.pielabels = r2.data.names;
+					$scope.piedata = r2.data.counts;
+				} else {
+					FlashService.Error(r2.message);
+				}
+				vm.dataLoading = false;
+			});
+		};
+		
+    	ChampionshipService.GetStats(vm.type , function(r2){
 			if( r2.success ) {
 				
 				$scope.pielabels = r2.data.names;
@@ -123,7 +138,12 @@
 				}
 				vm.dataSaving = false;
 			});
-		}		
+		};
+		
+		
+		vm.editMode = function() {
+			
+		}
     };
 
     

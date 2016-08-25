@@ -26,7 +26,7 @@
 
 <table ng-table ="usersTable" class="table table-condensed table-bordered table-striped">
 <tr ng-repeat="r in records">
-<td data-title="'id'"><a href="#/editcmpnships/{{r.imgId}}">{{r.id}}</a></td>
+<td data-title="'id'"><a ng-click="vm.editMode" href="">{{r.id}}</a></td>
 <td data-title="'event'">{{r.event}}</td>
 <td data-title="'status'">{{r.status}}</td>
 <td data-title="'content'">{{r.template}}</td>

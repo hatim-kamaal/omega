@@ -200,8 +200,8 @@
 
         return service;
 
-        function GetStats(callback) {
-        	$http.post( consts.apiUrl , { 'service':'Championship', 'method':'getStats'})			
+        function GetStats(type, callback) {
+        	$http.post( consts.apiUrl , { 'service':'Championship', 'method':'getStats', 'type':type})			
 			.success(function(response) {			
 			callback(response);
 			}).error( function(response){				

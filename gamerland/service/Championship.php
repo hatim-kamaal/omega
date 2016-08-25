@@ -173,10 +173,17 @@ class Championship {
 	}
 	
 	function getStats() {
+		
+		$type = $this->data->type;
+		
 // 		, gameName, images,platform,
 // 		gamePrice,until,purchasePrize,gameType,UserRegistered,TotalRounds
-		$rs = $this->conn->query("SELECT platform , count(platform)
-				FROM ImagesTable GROUP BY platform");
+
+// 		$rs = $this->conn->query("SELECT platform , count(platform)
+// 				FROM ImagesTable GROUP BY platform");
+		
+		$rs = $this->conn->query("SELECT $type , count($type)
+				FROM ImagesTable GROUP BY $type");
 		
 		if( !isset($rs) ) {
 			throw new Exception('Technical issue#1');

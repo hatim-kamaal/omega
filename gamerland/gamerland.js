@@ -8,10 +8,10 @@
 		.constant('consts', {
 			appName: 'GamerLand',
 			appVersion: 0.1,
-			apiUrl: 'http://192.168.1.106/omega/gamerland/service/Service.php',
-			fileUpoadUrl: 'http://192.168.1.106/omega/gamerland/service/FileUpload.php'
-			//apiUrl: 'http://localhost/omega/gamerland/service/Service.php',
-			//fileUpoadUrl: 'http://localhost/omega/gamerland/service/FileUpload.php'
+			//apiUrl: 'http://192.168.1.106/omega/gamerland/service/Service.php',
+			//fileUpoadUrl: 'http://192.168.1.106/omega/gamerland/service/FileUpload.php'
+			apiUrl: 'http://localhost/omega/gamerland/service/Service.php',
+			fileUpoadUrl: 'http://localhost/omega/gamerland/service/FileUpload.php'
 			})
         .config(config)
         .run(run);
